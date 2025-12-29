@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import PoliticianCard from './PoliticianCard';
 
 function PoliticiansList() {
     const [politicians, setPoliticians] = useState([]);
@@ -35,8 +36,8 @@ function PoliticiansList() {
             return (
                 politician.name.toLowerCase().includes(searchLower) ||
                 politician.biography.toLowerCase().includes(searchLower)
-            )
-        })
+            );
+        });
     }, [politicians, search]);
 
     if (loading) return <p>Caricamento...</p>;
@@ -52,25 +53,13 @@ function PoliticiansList() {
                 onChange={(e) => setSearch(e.target.value)}
                 className="search-input"
             />
-            <div className="cards-grid">
-                {filteredPoliticians.map((politician) => {
-                    console.log(`Rendering card: ${politician.name}`);
-
-                    return (
-                        <div key={politician.id} className="politician-card">
-                            <img
-                                src={politician.image}
-                                alt={politician.name}
-                                className="politician-image"
-                            />
-                            <div className="politician-info">
-                                <h2>{politician.name}</h2>
-                                <h3>{politician.position}</h3>
-                                <p>{politician.biography}</p>
-                            </div>
-                        </div>
-                    );
-                })}
+            <div className="cards-flex">
+                {filteredPoliticians.map((politician) => (
+                    <PoliticianCard 
+                        key={politician.id} 
+                        politician={politician}
+                    />
+                ))}
             </div>
         </div>
     );
